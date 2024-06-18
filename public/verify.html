@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Email</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="form-container">
+        <form id="verifyForm" action="/verify" method="POST">
+            <h2>Verify Your Email</h2>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="verificationKey">Verification Code:</label>
+            <input type="text" id="verificationKey" name="verificationKey" required>
+            <button type="submit">Verify</button>
+        </form>
+    </div>
+</body>
+</html>

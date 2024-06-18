@@ -1,0 +1,179 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+            .button:hover {
+                background-color: #0056b3;
+            }
+
+        .delete-button {
+            background-color: #dc3545;
+            margin-left: 10px;
+        }
+
+            .delete-button:hover {
+                background-color: #c82333;
+            }
+
+        .logout-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #dc3545;
+        }
+
+            .logout-button:hover {
+                background-color: #c82333;
+            }
+
+        .hidden {
+            display: none;
+        }
+
+        ul {
+            list-style-type: none;
+        }
+
+        li {
+            margin: 5px 0;
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <button class="button logout-button" onclick="logout()">Ausloggen</button>
+    <h1>Willkommen zu Benutzeroberfläche, was möchtest du tun?!</h1>
+
+    <!-- Upload Document Form -->
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" id="uploadInput" name="file" class="hidden" />
+        <button type="button" class="button" onclick="document.getElementById('uploadInput').click();">Dokument Hochladen</button>
+    </form>
+
+    <!-- List Documents -->
+    <button class="button" onclick="toggleDocumentList()">Dokumente Auflisten</button>
+    <ul id="fileList" class="hidden"></ul>
+
+    <!-- OCR Image Form -->
+    <form id="ocrForm" enctype="multipart/form-data">
+        <input type="file" id="ocrInput" name="image" class="hidden" />
+        <button type="button" class="button" onclick="document.getElementById('ocrInput').click();">Bilder mit OCR lesen</button>
+    </form>
+
+    <div id="ocrResult"></div>
+
+    <script>
+        document.getElementById('uploadInput').addEventListener('change', function () {
+            const formData = new FormData(document.getElementById('uploadForm'));
+            fetch('/dashboard/upload', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    alert(data);
+                    listDocuments(); // Aktualisieren Sie die Liste der hochgeladenen Dokumente
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function toggleDocumentList() {
+            const fileList = document.getElementById('fileList');
+            if (fileList.classList.contains('hidden')) {
+                listDocuments();
+                fileList.classList.remove('hidden');
+            } else {
+                fileList.classList.add('hidden');
+            }
+        }
+
+        function listDocuments() {
+            fetch('/dashboard/files')
+                .then(response => response.json())
+                .then(files => {
+                    const fileList = document.getElementById('fileList');
+                    fileList.innerHTML = '';
+                    files.forEach(file => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `
+                            <a href="/dashboard/download/${file}" class="button">${file}</a>
+                            <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
+                        `;
+                        fileList.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function deleteDocument(filename) {
+            fetch(`/dashboard/delete/${filename}`, {
+                method: 'DELETE'
+            })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Dokument erfolgreich gelöscht');
+                        listDocuments(); // Aktualisieren Sie die Liste der Dokumente
+                    } else {
+                        alert('Fehler beim Löschen des Dokuments');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        document.getElementById('ocrInput').addEventListener('change', function () {
+            const formData = new FormData(document.getElementById('ocrForm'));
+            fetch('/dashboard/ocr', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('ocrResult').innerText = data;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+
+        function logout() {
+            fetch('/dashboard/logout')
+                .then(response => {
+                    if (response.ok) {
+                        window.location.href = '/';
+                    } else {
+                        alert('Logout failed');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        // Initial load of the document list
+        listDocuments();
+    </script>
+</body>
+</html>

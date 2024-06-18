@@ -1,0 +1,96 @@
+/* Reset some basic styles for consistency */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+    font-family: 'Arial', sans-serif;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Container for centering the form */
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+/* Form styling */
+form {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px 40px;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out;
+}
+
+    form h2 {
+        margin-bottom: 20px;
+        color: #333;
+        font-size: 24px;
+        text-align: center;
+    }
+
+    form label {
+        display: block;
+        margin: 10px 0 5px;
+        color: #555;
+    }
+
+    form input[type="text"],
+    form input[type="email"] {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 16px;
+        transition: border-color 0.3s;
+    }
+
+        form input[type="text"]:focus,
+        form input[type="email"]:focus {
+            border-color: #5151E5;
+            outline: none;
+        }
+
+    form input[type="submit"] {
+        width: 100%;
+        padding: 12px 15px;
+        border: none;
+        border-radius: 5px;
+        background: linear-gradient(135deg, #72EDF2 10%, #5151E5 100%);
+        color: white;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background 0.3s;
+    }
+
+        form input[type="submit"]:hover {
+            background: linear-gradient(135deg, #5151E5 10%, #72EDF2 100%);
+        }
+
+/* Fade-in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
