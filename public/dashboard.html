@@ -4,72 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-        }
-
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 10px;
-            font-size: 16px;
-            color: #fff;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-            .button:hover {
-                background-color: #0056b3;
-            }
-
-        .delete-button {
-            background-color: #dc3545;
-            margin-left: 10px;
-        }
-
-            .delete-button:hover {
-                background-color: #c82333;
-            }
-
-        .logout-button {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #dc3545;
-        }
-
-            .logout-button:hover {
-                background-color: #c82333;
-            }
-
-        .hidden {
-            display: none;
-        }
-
-        ul {
-            list-style-type: none;
-        }
-
-        li {
-            margin: 5px 0;
-            display: flex;
-            align-items: center;
-        }
-    </style>
+    <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
     <button class="button logout-button" onclick="logout()">Ausloggen</button>
-    <h1>Willkommen zu Benutzeroberfläche, was möchtest du tun?!</h1>
+    <h1>Willkommen zur Benutzeroberfläche, was möchtest du tun?!</h1>
+
+    <!-- Search Form -->
+    <input type="text" id="searchQuery" placeholder="Enter search term">
+    <button class="button" onclick="searchDocuments()">Search</button>
+    <ul id="searchResults"></ul>
 
     <!-- Upload Document Form -->
     <form id="uploadForm" enctype="multipart/form-data">
@@ -123,9 +67,9 @@
                     files.forEach(file => {
                         const li = document.createElement('li');
                         li.innerHTML = `
-                            <a href="/dashboard/download/${file}" class="button">${file}</a>
-                            <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
-                        `;
+                                <a href="/dashboard/download/${file}" class="button">${file}</a>
+                                <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
+                            `;
                         fileList.appendChild(li);
                     });
                 })
@@ -159,6 +103,22 @@
                 })
                 .catch(error => console.error('Error:', error));
         });
+
+        function searchDocuments() {
+            const query = document.getElementById('searchQuery').value;
+            fetch(`/dashboard/search?q=${query}`)
+                .then(response => response.json())
+                .then(results => {
+                    const resultsContainer = document.getElementById('searchResults');
+                    resultsContainer.innerHTML = '';
+                    results.forEach(result => {
+                        const li = document.createElement('li');
+                        li.textContent = result.filename;
+                        resultsContainer.appendChild(li);
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
 
         function logout() {
             fetch('/dashboard/logout')

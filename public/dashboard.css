@@ -1,0 +1,119 @@
+﻿/* CSS für das Dashboard */
+
+body {
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #1a1a1a, #333333);
+    color: #333;
+    text-align: center;
+}
+
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.button {
+    display: inline-block;
+    padding: 12px 24px;
+    margin: 12px;
+    font-size: 16px;
+    color: #fff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+    .button:hover {
+        background: linear-gradient(135deg, #0056b3, #003f7f);
+        transform: scale(1.05);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+.delete-button {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+    .delete-button:hover {
+        background: linear-gradient(135deg, #c82333, #a71d2a);
+    }
+
+.logout-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: linear-gradient(135deg, #dc3545, #a71d2a);
+}
+
+    .logout-button:hover {
+        background: linear-gradient(135deg, #c82333, #86181a);
+    }
+
+.hidden {
+    display: none;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+    width: 80%;
+    margin: 20px 0;
+}
+
+li {
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+a.button {
+    flex: 1;
+    margin-right: 10px;
+    text-align: center;
+}
+
+#ocrResult {
+    margin-top: 20px;
+    font-size: 18px;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    max-width: 80%;
+    word-wrap: break-word;
+}
+
+    /* Sicherstellen, dass keine Pseudo-Elemente stören */
+    .button::before,
+    .button::after,
+    .delete-button::before,
+    .delete-button::after,
+    .logout-button::before,
+    .logout-button::after,
+    .hidden::before,
+    .hidden::after,
+    ul::before,
+    ul::after,
+    li::before,
+    li::after,
+    #ocrResult::before,
+    #ocrResult::after {
+        content: none;
+    }

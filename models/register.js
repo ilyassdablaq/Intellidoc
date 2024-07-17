@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const crypto = require('crypto');
-const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
@@ -14,13 +13,21 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+function isPasswordValid(password) {
+    const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
+    return regex.test(password);
+}
+
 router.post('/', async (req, res) => {
     const { Name, email, password } = req.body;
 
+    if (!isPasswordValid(password)) {
+        return res.status(400).send('Password must be at least 6 characters long and include both letters and numbers.');
+    }
+
     try {
-        const hashedPassword = await bcrypt.hash(password, 10);
         const verificationKey = crypto.randomBytes(16).toString('hex');
-        const user = new User({ Name, email, password: hashedPassword, verificationKey, isVerified: false });
+        const user = new User({ Name, email, password, verificationKey, isVerified: false });
         await user.save();
 
         // E-Mail-Nachricht konfigurieren
