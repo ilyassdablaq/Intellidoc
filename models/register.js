@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
         pass: 'aU9wDGmYc6fKxZsQ7T'
     }
 });
-
+//Passwort voraussetzung
 function isPasswordValid(password) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
     return regex.test(password);

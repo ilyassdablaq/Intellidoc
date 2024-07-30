@@ -9,8 +9,7 @@ const registerUserRouter = require('./models/register');
 const loginRouter = require('./models/login');
 const verifyRoute = require('./models/verify');
 const dashboardRoute = require('./models/dashboard');
-const searchRouter = require('./models/search');
-const commentRouter = require('./models/Comment');
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));

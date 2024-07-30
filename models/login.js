@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-//const bcrypt = require('bcrypt'); // Importiert bcrypt, ein Modul zur Passwort-Hashing
 const User = require('../models/User'); // Importiert das User-Modell
 
 router.post('/', async (req, res) => {
@@ -22,18 +21,6 @@ router.post('/', async (req, res) => {
             console.log('Passwort stimmt nicht überein');
             return res.status(400).send('Ungültiges Passwort');
         }
-        // Überprüft das Passwort
-        // bcrypt.compare(password, user.password, (err, isMatch) => {
-        //  if (err) { 
-        //     console.error('Fehler beim Passwortvergleich:', err); 
-        //     return res.status(500).send('Fehler beim Login'); 
-        //  }
-
-        // Falls das Passwort nicht übereinstimmt
-        //  if (!isMatch) {
-        //    console.log('Passwort stimmt nicht überein');
-        //     return res.status(400).send('Ungültiges Passwort');
-        // }
 
         // Fügt den Benutzer zur Sitzung hinzu
         req.session.userId = user._id;

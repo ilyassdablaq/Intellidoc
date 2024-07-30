@@ -6,8 +6,6 @@ const path = require('path'); // Importiert das Path-Modul von Node.js, um Datei
 const tesseract = require('tesseract.js'); // Importiert Tesseract.js, eine OCR-Bibliothek, um Text aus Bildern zu extrahieren
 const User = require('../models/User'); // Importiert das User-Modell aus dem angegebenen Pfad
 const { PDFDocument, rgb } = require('pdf-lib'); // Importiert PDF-lib, um PDF-Dokumente zu erstellen und zu bearbeiten, sowie die rgb-Funktion für Farbangaben
-const { Client } = require('@elastic/elasticsearch');
-
 
 // Middleware, um zu überprüfen, ob der Benutzer authentifiziert ist
 async function isAuthenticated(req, res, next) {
@@ -39,8 +37,8 @@ const storage = multer.diskStorage({
         cb(null, uploadDir); // Verwendet das gesicherte Upload-Verzeichnis
     },
     filename: function (req, file, cb) {
-        // Verwendet die Benutzer-ID im Dateinamen
-        cb(null, req.user._id + '-' + Date.now() + '-' + file.originalname);
+        // Verwendet den ursprünglichen Dateinamen
+        cb(null, req.user._id + '-' + file.originalname);
     }
 });
 const upload = multer({ storage: storage });
@@ -58,24 +56,10 @@ router.post('/upload', isAuthenticated, upload.single('file'), async (req, res) 
     console.log(`Datei hochgeladen nach: ${req.file.path}`);
 
     try {
-        // Dateiinhalt lesen
-        const fileContent = fs.readFileSync(req.file.path, 'utf8');
-
-        // Dokument in Elasticsearch indizieren
-        await esClient.index({
-            index: 'documents',
-            body: {
-                user_id: req.user._id,
-                filename: req.file.filename,
-                content: fileContent,
-                upload_date: new Date()
-            }
-        });
-
-        res.send('Datei erfolgreich hochgeladen und indiziert');
+        res.send('Datei erfolgreich hochgeladen ');
     } catch (error) {
-        console.error(`Fehler beim Indizieren der Datei: ${error}`);
-        res.status(500).send('Fehler beim Hochladen und Indizieren der Datei');
+        console.error(`Fehler beim Hochladen der Datei: ${error}`);
+        res.status(500).send('Fehler beim Hochladen der Datei');
     }
 });
 
@@ -102,6 +86,8 @@ router.get('/files', isAuthenticated, (req, res) => {
     });
 });
 
+
+
 // Route zum Durchführen von OCR auf Bildern und Speichern als PDF
 router.post('/ocr', isAuthenticated, upload.single('image'), (req, res) => {
     const filePath = req.file.path;
@@ -115,8 +101,8 @@ router.post('/ocr', isAuthenticated, upload.single('image'), (req, res) => {
 
             // Setzt die Schriftart und Größe des Textes
             const fontSize = 12;
-           // const textWidth = page.getWidth() - 2 * 20;
-           // const textHeight = page.getHeight() - 2 * 20;
+            const textWidth = page.getWidth() - 2 * 20;
+            const textHeight = page.getHeight() - 2 * 20;
 
             // Teilt den Text in Zeilen, die in die Seitenbreite passen
             const lines = text.split('\n');

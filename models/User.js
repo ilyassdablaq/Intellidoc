@@ -1,3 +1,4 @@
+//schema wie werden daten in Mongodb gespeichert und welche daten
 const mongoose = require('mongoose');
 
 
