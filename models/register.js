@@ -5,11 +5,13 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 
 const transporter = nodemailer.createTransport({
-    host: 'smtp.ethereal.email',
+    service: 'gmail',
+    host: 'smtp.gmail.com',
     port: 587,
+    secure: false,
     auth: {
-        user: 'dalton37@ethereal.email',
-        pass: 'aU9wDGmYc6fKxZsQ7T'
+        user: 'dev.intellidoc@gmail.com', //dalton37@ethereal.email
+        pass: 'rdqs tfnt idfq unbr '
     }
 });
 //Passwort voraussetzung
@@ -26,17 +28,34 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const verificationKey = crypto.randomBytes(16).toString('hex');
+        const verificationKey = Math.floor(10000 + Math.random() * 90000).toString();
         const user = new User({ Name, email, password, verificationKey, isVerified: false });
         await user.save();
 
         // E-Mail-Nachricht konfigurieren
         const mailOptions = {
-            from: 'dalton37@ethereal.email', // Absenderadresse
-            to: email, // Empfängeradresse
-            subject: 'Ihr Bestätigungscode für die Registrierung', // Betreffzeile
-            text: `Willkommen zu Inttelidoc!\n\nIhr Bestätigungscode lautet: ${verificationKey}` // E-Mail-Text
+            from: 'dev.intellidoc@gmail.com', // Absenderadresse
+            to: email, // Empfängeradresse (vom User eingegeben)
+            subject: 'Ihr Bestaetigungscode für die Registrierung', // Betreffzeile
+            html: `<html>
+                <head>
+                    <meta charset="UTF-8">
+                        <title>Bestätigungscode</title>
+                </head>
+                <body>
+                    <h2>Willkommen bei Intellidoc, ${Name}!</h2>
+                    <p>Vielen Dank, dass Sie sich bei Intellidoc registriert haben.</p>
+                    <p>Um Ihre E-Mail-Adresse zu bestätigen, geben Sie bitte den folgenden Bestätigungscode ein:</p>
+                    <h3 style="color: blue;">${verificationKey}</h3>
+                    <p>Wenn Sie sich nicht für Intellidoc registriert haben, ignorieren Sie bitte diese E-Mail.</p>
+                    <br>
+                        <p>Mit freundlichen Grüßen,<br>Das Intellidoc-Team</p>
+                </body>
+            </html>
+        `
+          
         };
+        
 
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {

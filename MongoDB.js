@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 //Passwort und Datenbankname sind in der URI enthalten
-const MONGO_URI = 'mongodb+srv://ilyassdablaq:5tqSPqaaw5Vowv6x@cluster0.zv9mntu.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0'
+const MONGO_URI = 'mongodb+srv://ayoub1:8WPMMNrdmWHPPwW7@cluster1.iiijeao.mongodb.net/test?retryWrites=true&w=majority'
 
 // MongoDB-Verbindung herstellen
 const connectDB = async () => {
