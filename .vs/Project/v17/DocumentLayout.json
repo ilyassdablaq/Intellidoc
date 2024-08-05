@@ -3,16 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\Landingpage.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\Landingpage.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\dashboard.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\dashboard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\login.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\login.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:package.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\verify.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\verify.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.gitignore||{3B902123-F8A7-4915-9F01-361F908088D0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\LandingPage.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\LandingPage.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\Landingpage.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\Landingpage.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\verify.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -27,32 +63,8 @@
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\register.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\login.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\login.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:models\\dashboard.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:app.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\login.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\LandingPage.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\LandingPage.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\register.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:public\\style.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\MongoDB.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
@@ -66,20 +78,55 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 11,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 4,
+              "Title": "package.json",
+              "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\package.json",
+              "RelativeDocumentMoniker": "package.json",
+              "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\package.json",
+              "RelativeToolTip": "package.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2024-08-01T12:06:50.53Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": ".gitignore",
+              "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\.gitignore",
+              "RelativeDocumentMoniker": ".gitignore",
+              "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\.gitignore",
+              "RelativeToolTip": ".gitignore",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2024-07-30T10:00:17.208Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "verify.html",
+              "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\verify.html",
+              "RelativeDocumentMoniker": "public\\verify.html",
+              "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\verify.html",
+              "RelativeToolTip": "public\\verify.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2024-07-30T09:53:30.065Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "register.html",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\register.html",
               "RelativeDocumentMoniker": "public\\register.html",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\register.html",
               "RelativeToolTip": "public\\register.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-06-19T21:39:26.933Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T21:39:26.933Z"
             },
             {
               "$type": "Document",
@@ -89,10 +136,9 @@
               "RelativeDocumentMoniker": "public\\login.html",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\login.html",
               "RelativeToolTip": "public\\login.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAcAAAAGAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-06-19T10:51:59.168Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T10:51:59.168Z"
             },
             {
               "$type": "Document",
@@ -102,7 +148,7 @@
               "RelativeDocumentMoniker": "public\\dashboard.css",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\dashboard.css",
               "RelativeToolTip": "public\\dashboard.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAbAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAGAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
               "WhenOpened": "2024-06-19T10:19:28.102Z",
               "EditorCaption": ""
@@ -115,14 +161,13 @@
               "RelativeDocumentMoniker": "public\\LandingPage.html",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\LandingPage.html",
               "RelativeToolTip": "public\\LandingPage.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2024-06-19T10:13:11.488Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T10:13:11.488Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 11,
               "Title": "Landingpage.css",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\Landingpage.css",
               "RelativeDocumentMoniker": "public\\Landingpage.css",
@@ -130,25 +175,23 @@
               "RelativeToolTip": "public\\Landingpage.css",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAASAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-06-19T10:12:12.556Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T10:12:12.556Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 7,
               "Title": "style.css",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\style.css",
               "RelativeDocumentMoniker": "public\\style.css",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\style.css",
               "RelativeToolTip": "public\\style.css",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAA4AAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAWAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2024-06-19T10:09:20.134Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T10:09:20.134Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "MongoDB.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\MongoDB.js",
               "RelativeDocumentMoniker": "MongoDB.js",
@@ -156,12 +199,11 @@
               "RelativeToolTip": "MongoDB.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-19T09:59:20.072Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T09:59:20.072Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "app.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\app.js",
               "RelativeDocumentMoniker": "app.js",
@@ -169,25 +211,24 @@
               "RelativeToolTip": "app.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-19T09:58:59.9Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T09:58:59.9Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "dashboard.html",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\dashboard.html",
               "RelativeDocumentMoniker": "public\\dashboard.html",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\public\\dashboard.html",
               "RelativeToolTip": "public\\dashboard.html",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAQAAAA",
+              "ViewState": "AQIAAJMAAAAAAAAAAAAcwKoAAABXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
               "WhenOpened": "2024-06-19T09:58:42.452Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 12,
               "Title": "verify.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\verify.js",
               "RelativeDocumentMoniker": "models\\verify.js",
@@ -195,12 +236,11 @@
               "RelativeToolTip": "models\\verify.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAApAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-19T09:55:40.96Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T09:55:40.96Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 13,
               "Title": "User.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\User.js",
               "RelativeDocumentMoniker": "models\\User.js",
@@ -208,12 +248,11 @@
               "RelativeToolTip": "models\\User.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAABBAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-19T09:55:37.074Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T09:55:37.074Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 14,
               "Title": "register.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\register.js",
               "RelativeDocumentMoniker": "models\\register.js",
@@ -221,12 +260,11 @@
               "RelativeToolTip": "models\\register.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-19T09:54:30.462Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T09:54:30.462Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 3,
               "Title": "login.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\login.js",
               "RelativeDocumentMoniker": "models\\login.js",
@@ -234,18 +272,17 @@
               "RelativeToolTip": "models\\login.js",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAEAAAAgAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2024-06-19T09:51:24.397Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-19T09:51:24.397Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "dashboard.js",
               "DocumentMoniker": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\dashboard.js",
               "RelativeDocumentMoniker": "models\\dashboard.js",
               "ToolTip": "C:\\Users\\ilyas\\OneDrive\\Desktop\\Project\\models\\dashboard.js",
               "RelativeToolTip": "models\\dashboard.js",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAAFAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAEwAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
               "WhenOpened": "2024-06-19T09:42:42.756Z",
               "EditorCaption": ""

@@ -81,6 +81,7 @@ router.get('/files', isAuthenticated, (req, res) => {
             console.error(`Fehler beim Lesen der Dateien: ${err}`);
             return res.status(500).send('Fehler beim Scannen der Dateien');
         }
+        // vllt hier gibt es ein Problem warum nach dem umbenenen datei verschwindet
         const userFiles = files.filter(file => file.startsWith(req.user._id + '-'));
         res.json(userFiles);
     });
@@ -127,7 +128,7 @@ router.post('/ocr', isAuthenticated, upload.single('image'), (req, res) => {
             fs.writeFileSync(pdfFilePath, pdfBytes);
 
             // Löscht die hochgeladene Bilddatei
-            fs.unlinkSync(filePath);
+           // fs.unlinkSync(filePath);
 
             // Antwortet mit dem Pfad zur gespeicherten PDF
             res.download(pdfFilePath, 'ocr-result.pdf', (err) => {
@@ -154,6 +155,20 @@ router.delete('/delete/:filename', isAuthenticated, (req, res) => {
             return res.status(500).send('Fehler beim Löschen der Datei');
         }
         res.send('Datei erfolgreich gelöscht');
+    });
+});
+// Route zum Umbenennen eines Dokuments
+router.post('/rename', isAuthenticated, (req, res) => {
+    const { oldFilename, newFilename } = req.body;
+    const oldFilePath = path.join(uploadDir, oldFilename);
+    const newFilePath = path.join(uploadDir, req.user._id + '-' + newFilename);
+
+    fs.rename(oldFilePath, newFilePath, (err) => {
+        if (err) {
+            console.error(`Fehler beim Umbenennen der Datei: ${err}`);
+            return res.status(500).send('Fehler beim Umbenennen der Datei');
+        }
+        res.send('Datei erfolgreich umbenannt');
     });
 });
 // Route zum Ausloggen

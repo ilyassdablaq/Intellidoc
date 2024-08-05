@@ -1,5 +1,4 @@
-﻿<!--dashboard-->
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -66,15 +65,26 @@
                     const fileList = document.getElementById('fileList');
                     fileList.innerHTML = '';
                     files.forEach(file => {
+                        const displayFileName = file.split('-').slice(1).join('-'); // Entfernt die Benutzer-ID
                         const li = document.createElement('li');
                         li.innerHTML = `
-                                <a href="/dashboard/download/${file}" class="button">${file}</a>
-                                <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
-                            `;
+                                    <span ondblclick="renameDocument(this, '${file}')">${displayFileName}</span>
+                                    <button class="button" onclick="downloadDocument('${file}')">Herunterladen</button>
+                                    <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
+                                `;
                         fileList.appendChild(li);
                     });
                 })
                 .catch(error => console.error('Error:', error));
+        }
+
+        function downloadDocument(filename) {
+            const link = document.createElement('a');
+            link.href = `/dashboard/download/${filename}`;
+            link.download = filename;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
 
         function deleteDocument(filename) {
@@ -133,8 +143,33 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        // Initial load of the document list
-        listDocuments();
+        function renameDocument(element, oldFilename) {
+            const newFilename = prompt("Geben Sie einen neuen Dateinamen ein:", oldFilename.split('-').slice(1).join('-'));
+            if (newFilename) {
+                fetch('/dashboard/rename', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ oldFilename, newFilename })
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            return response.text();
+                        } else {
+                            throw new Error('Fehler beim Umbenennen des Dokuments');
+                        }
+                    })
+                    .then(data => {
+                        alert(data);
+                        listDocuments(); // Aktualisieren Sie die Liste der Dokumente
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+
+        
+        listDocuments(); 
     </script>
 </body>
 </html>
