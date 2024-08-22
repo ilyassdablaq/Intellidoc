@@ -2,18 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const crypto = require('crypto');
-const nodemailer = require('nodemailer');
+const transporter = require('../models/mailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false,
-    auth: {
-        user: 'dev.intellidoc@gmail.com', //dalton37@ethereal.email
-        pass: 'rdqs tfnt idfq unbr '
-    }
-});
+
 //Passwort voraussetzung
 function isPasswordValid(password) {
     const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/;
@@ -73,3 +64,6 @@ router.post('/', async (req, res) => {
 });
 
 module.exports = router;
+
+
+        //Ayoub.B

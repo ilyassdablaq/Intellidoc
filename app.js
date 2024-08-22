@@ -9,6 +9,7 @@ const registerUserRouter = require('./models/register');
 const loginRouter = require('./models/login');
 const verifyRoute = require('./models/verify');
 const dashboardRoute = require('./models/dashboard');
+const passwordResetRoute = require('./models/passwordReset');
 
 
 // Middleware
@@ -38,11 +39,13 @@ app.get('/register', (req, res) => {
     res.sendFile(path.join(__dirname, 'public/register.html'));
 });
 
+
 // Route für die Registrierungsformularübermittlung
 app.use('/register', registerUserRouter);
 app.use('/login', loginRouter);
 app.use('/verify', verifyRoute);
 app.use('/dashboard', dashboardRoute);
+app.use('/passwordReset', passwordResetRoute);
 // Route zum Ausloggen
 app.get('/logout', (req, res) => {
     req.session.destroy(err => {

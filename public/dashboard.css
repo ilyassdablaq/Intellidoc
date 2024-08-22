@@ -1,6 +1,4 @@
-﻿/* css für das Dashboard */
-
-body {
+﻿body {
     font-family: 'Arial', sans-serif;
     display: flex;
     flex-direction: column;
@@ -8,7 +6,7 @@ body {
     justify-content: center;
     height: 100vh;
     margin: 0;
-    background: linear-gradient(135deg, #1a1a1a, #333333);
+    background: linear-gradient(135deg, #87CEFA, #E0E0E0); /* Sanfterer Verlauf von Hellblau (#87CEFA) zu Hellgrau (#E0E0E0) */
     color: #333;
     text-align: center;
 }
@@ -16,8 +14,8 @@ body {
 h1 {
     font-size: 2.5rem;
     margin-bottom: 20px;
-    color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    color: #333;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .button {
@@ -91,8 +89,8 @@ a.button {
 #ocrResult {
     margin-top: 20px;
     font-size: 18px;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.5);
+    color: #333;
+    background: rgba(255, 255, 255, 0.7);
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
@@ -100,20 +98,52 @@ a.button {
     word-wrap: break-word;
 }
 
-    /* Sicherstellen, dass keine Pseudo-Elemente stören */
-    .button::before,
-    .button::after,
-    .delete-button::before,
-    .delete-button::after,
-    .logout-button::before,
-    .logout-button::after,
-    .hidden::before,
-    .hidden::after,
-    ul::before,
-    ul::after,
-    li::before,
-    li::after,
-    #ocrResult::before,
-    #ocrResult::after {
-        content: none;
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
     }
+
+    .button {
+        padding: 10px 20px;
+        font-size: 14px;
+        margin: 8px;
+    }
+
+    ul {
+        width: 100%;
+    }
+
+    li {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    a.button {
+        margin-right: 0;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    #ocrResult {
+        font-size: 16px;
+        padding: 8px;
+    }
+}
+
+@keyframes buttonPop {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.button:hover {
+    animation: buttonPop 0.3s ease-in-out;
+}

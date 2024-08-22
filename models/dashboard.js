@@ -48,10 +48,6 @@ router.get('/', isAuthenticated, (req, res) => {
 });
 
 // Route zum Hochladen von Dokumenten
-//router.post('/upload', isAuthenticated, upload.single('file'), (req, res) => {
- //   console.log(`Datei hochgeladen nach: ${req.file.path}`);
- //   res.send('Datei erfolgreich hochgeladen');
-//});
 router.post('/upload', isAuthenticated, upload.single('file'), async (req, res) => {
     console.log(`Datei hochgeladen nach: ${req.file.path}`);
 

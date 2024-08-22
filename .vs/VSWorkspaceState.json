@@ -1,7 +1,9 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\models",
+    "\\public"
   ],
-  "SelectedNode": "\\C:\\Users\\belba\\Source\\Repos\\Intellidoc",
+  "SelectedNode": "\\models\\passwordReset.js",
   "PreviewInSolutionExplorer": false
 }

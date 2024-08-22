@@ -8,7 +8,7 @@
 </head>
 <body>
     <button class="button logout-button" onclick="logout()">Ausloggen</button>
-    <h1>Willkommen zur Benutzeroberfläche, was möchtest du tun?!</h1>
+    <h1>Intellidoc</h1>
 
     <!-- Search Form -->
     <input type="text" id="searchQuery" placeholder="Enter search term">
@@ -43,7 +43,7 @@
                 .then(response => response.text())
                 .then(data => {
                     alert(data);
-                    listDocuments(); // Aktualisieren Sie die Liste der hochgeladenen Dokumente
+                    listDocuments(); // Aktualisiert die Liste der hochgeladenen Dokumente
                 })
                 .catch(error => console.error('Error:', error));
         });
