@@ -85,8 +85,9 @@ router.get('/files', isAuthenticated, (req, res) => {
             console.error(`Fehler beim Lesen der Dateien: ${err}`);
             return res.status(500).send('Fehler beim Scannen der Dateien');
         }
-        // vllt hier gibt es ein Problem warum nach dem umbenenen datei verschwindet
-        const userFiles = files.filter(file => file.startsWith(req.user._id + '-'));
+        // Entfernen der Benutzer-ID aus den Dateinamen
+        const userFiles = files.filter(file => file.startsWith(req.user._id + '-'))
+            .map(file => file.replace(req.user._id + '-', ''));
         res.json(userFiles);
     });
 });
