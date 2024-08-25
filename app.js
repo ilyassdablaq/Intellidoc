@@ -5,17 +5,17 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const PORT = process.env.PORT || 3000;
-const registerUserRouter = require('./models/register');
-const loginRouter = require('./models/login');
-const verifyRoute = require('./models/verify');
-const dashboardRoute = require('./models/dashboard');
-const passwordResetRoute = require('./models/passwordReset');
+const registerUserRouter = require('./Backend/register');
+const loginRouter = require('./Backend/login');
+const verifyRoute = require('./Backend/verify');
+const dashboardRoute = require('./Backend/dashboard');
+const passwordResetRoute = require('./Backend/passwordReset');
 
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'Frontend')));
 
 // MongoDB-Verbindung herstellen
 connectDB();
@@ -29,14 +29,14 @@ app.use(session({
 
 // Route für die Startseite
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'landingPage.html'));
+    res.sendFile(path.join(__dirname, 'Frontend', 'landingPage.html'));
 });
 // Route for the login und register page
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'login.html'));
+    res.sendFile(path.join(__dirname, 'Frontend', 'login.html'));
 });
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/register.html'));
+    res.sendFile(path.join(__dirname, 'Frontend/register.html'));
 });
 
 

@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\models",
-    "\\public"
+    "\\public",
+    "\\uploads"
   ],
-  "SelectedNode": "\\models\\passwordReset.js",
+  "SelectedNode": "\\models\\dashboard.js",
   "PreviewInSolutionExplorer": false
 }
