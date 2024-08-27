@@ -1,10 +1,9 @@
 {
   "ExpandedNodes": [
     "",
-    "\\models",
-    "\\public",
+    "\\Backend",
+    "\\Frontend",
     "\\uploads"
   ],
-  "SelectedNode": "\\models\\dashboard.js",
   "PreviewInSolutionExplorer": false
 }

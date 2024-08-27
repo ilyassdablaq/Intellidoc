@@ -58,18 +58,30 @@ router.post('/upload', isAuthenticated, upload.single('file'), async (req, res) 
     console.log(`Datei hochgeladen nach: ${req.file.path}`);
 
     try {
-        res.send('Datei erfolgreich hochgeladen ');
+        res.send('Datei erfolgreich hochgeladen');
     } catch (error) {
         console.error(`Fehler beim Hochladen der Datei: ${error}`);
         res.status(500).send('Fehler beim Hochladen der Datei');
     }
 });
 
+
 // Author: ilyassdablaq
 // Route zum Herunterladen von Dokumenten
 router.get('/download/:filename', isAuthenticated, (req, res) => {
-    const file = path.join(uploadDir, req.params.filename);
-    res.download(file, (err) => {
+    const decodedFilename = decodeURIComponent(req.params.filename);
+    const fileWithId = `${req.user._id}-${decodedFilename}`;
+    const filePath = path.join(uploadDir, fileWithId);
+
+    console.log(`Decoded filename: ${decodedFilename}`);
+    console.log(`Final file path for download: ${filePath}`);
+
+    if (!fs.existsSync(filePath)) {
+        console.error('Datei nicht gefunden:', filePath);
+        return res.status(404).send('Datei nicht gefunden');
+    }
+
+    res.download(filePath, (err) => {
         if (err) {
             console.error(`Fehler beim Herunterladen der Datei: ${err}`);
             res.status(500).send('Fehler beim Herunterladen der Datei');
@@ -92,6 +104,72 @@ router.get('/files', isAuthenticated, (req, res) => {
     });
 });
 
+
+
+// Author: ilyassdablaq
+// Route zum Löschen eines Dokuments
+router.delete('/delete/:filename', isAuthenticated, (req, res) => {
+    // Benutzer-ID hinzufügen, um den vollständigen Dateinamen zu erhalten
+    const filenameWithId = `${req.user._id}-${req.params.filename}`;
+    const file = path.join(uploadDir, filenameWithId);
+
+    fs.unlink(file, (err) => {
+        if (err) {
+            console.error(`Fehler beim Löschen der Datei: ${err}`);
+            return res.status(500).send('Fehler beim Löschen der Datei');
+        }
+        res.send('Datei erfolgreich gelöscht');
+    });
+});
+
+// Author: ilyassdablaq
+// Route zum Umbenennen eines Dokuments
+router.post('/rename', isAuthenticated, (req, res) => {
+    const { oldFilename, newFilename } = req.body;
+    const oldFilePath = path.join(uploadDir, `${req.user._id}-${oldFilename}`);
+    const newFilePath = path.join(uploadDir, `${req.user._id}-${newFilename}`);
+
+    fs.rename(oldFilePath, newFilePath, (err) => {
+        if (err) {
+            console.error(`Fehler beim Umbenennen der Datei: ${err}`);
+            return res.status(500).send('Fehler beim Umbenennen der Datei');
+        }
+
+        // Verzögerung von 100 ms
+        setTimeout(() => {
+            res.send('Datei erfolgreich umbenannt');
+        }, 100);
+    });
+});
+
+
+// Author: ilyassdablaq
+// Route zum Vorschau Fenster
+router.get('/preview/:filePath', (req, res) => {
+    const filePath = decodeURIComponent(req.params.filePath);
+    const absolutePath = path.join(uploadDir, filePath);
+
+    console.log(`Preview requested for: ${absolutePath}`); // Debugging line
+
+    if (fs.existsSync(absolutePath)) {
+        res.sendFile(absolutePath);
+    } else {
+        console.error(`File not found: ${absolutePath}`);
+        res.status(404).send('Datei nicht gefunden');
+    }
+});
+
+// Author: ilyassdablaq
+// Route zum Ausloggen
+router.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if (err) {
+            console.error(`Fehler beim Ausloggen: ${err}`);
+            return res.status(500).send('Abmelden nicht möglich');
+        }
+        res.redirect('/');
+    });
+});
 // Author: ilyassdablaq
 // Route zum Durchführen von OCR auf Bildern und Speichern als PDF
 router.post('/ocr', isAuthenticated, upload.single('image'), (req, res) => {
@@ -150,62 +228,4 @@ router.post('/ocr', isAuthenticated, upload.single('image'), (req, res) => {
         res.status(500).send('Fehler bei der Bildverarbeitung');
     });
 });
-
-// Author: ilyassdablaq
-// Route zum Löschen eines Dokuments
-router.delete('/delete/:filename', isAuthenticated, (req, res) => {
-    const file = path.join(uploadDir, req.params.filename);
-    fs.unlink(file, (err) => {
-        if (err) {
-            console.error(`Fehler beim Löschen der Datei: ${err}`);
-            return res.status(500).send('Fehler beim Löschen der Datei');
-        }
-        res.send('Datei erfolgreich gelöscht');
-    });
-});
-
-// Author: ilyassdablaq
-// Route zum Umbenennen eines Dokuments
-router.post('/rename', isAuthenticated, (req, res) => {
-    const { oldFilename, newFilename } = req.body;
-    const oldFilePath = path.join(uploadDir, oldFilename);
-    const newFilePath = path.join(uploadDir, req.user._id + '-' + newFilename);
-
-    fs.rename(oldFilePath, newFilePath, (err) => {
-        if (err) {
-            console.error(`Fehler beim Umbenennen der Datei: ${err}`);
-            return res.status(500).send('Fehler beim Umbenennen der Datei');
-        }
-        res.send('Datei erfolgreich umbenannt');
-    });
-});
-
-// Author: ilyassdablaq
-// Route zum Vorschau Fenster
-router.get('/preview/:filePath', (req, res) => {
-    const filePath = decodeURIComponent(req.params.filePath);
-    const absolutePath = path.join(uploadDir, filePath);
-
-    console.log(`Preview requested for: ${absolutePath}`); // Debugging line
-
-    if (fs.existsSync(absolutePath)) {
-        res.sendFile(absolutePath);
-    } else {
-        console.error(`File not found: ${absolutePath}`);
-        res.status(404).send('Datei nicht gefunden');
-    }
-});
-
-// Author: ilyassdablaq
-// Route zum Ausloggen
-router.get('/logout', (req, res) => {
-    req.session.destroy(err => {
-        if (err) {
-            console.error(`Fehler beim Ausloggen: ${err}`);
-            return res.status(500).send('Abmelden nicht möglich');
-        }
-        res.redirect('/');
-    });
-});
-
 module.exports = router;

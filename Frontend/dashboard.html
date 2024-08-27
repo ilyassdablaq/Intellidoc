@@ -8,12 +8,7 @@
 </head>
 <body>
     <button class="button logout-button" onclick="logout()">Ausloggen</button>
-    <h1>Intellidoc</h1>
-
-    <!-- Search Form -->
-    <input type="text" id="searchQuery" placeholder="Suchbegriff eingeben">
-    <button class="button" onclick="searchDocuments()">Suchen</button>
-    <ul id="searchResults"></ul>
+    <h2> Intellidoc </h2>
 
     <!-- Upload Document Form -->
     <form id="uploadForm" enctype="multipart/form-data">
@@ -21,20 +16,6 @@
         <button type="button" class="button" onclick="document.getElementById('uploadInput').click();">Dokument Hochladen</button>
     </form>
 
-    <!-- Suggested Folder -->
-    <div id="suggestedFolderContainer" style="display: none;">
-        <h3>Vorgeschlagener Ordner:</h3>
-        <p id="suggestedFolder"></p>
-        <button class="button" onclick="acceptSuggestedFolder()">Vorschlag akzeptieren</button>
-        <button class="button" onclick="chooseManualFolder()">Manuelle Auswahl</button>
-    </div>
-
-    <!-- Manual Folder Selection -->
-    <div id="manualFolderContainer" style="display: none;">
-        <label for="manualFolder">Ordner auswählen:</label>
-        <input type="text" id="manualFolder" placeholder="Pfad zum Ordner eingeben">
-        <button class="button" onclick="saveToManualFolder()">Speichern</button>
-    </div>
 
     <!-- List Documents -->
     <button class="button" onclick="toggleDocumentList()">Dokumente Auflisten</button>
@@ -48,16 +29,31 @@
 
     <div id="ocrResult"></div>
 
-    <!-- Vorschau Fenster -->
-    <div id="previewContainer" style="display:none;">
-        <h3>Dokumentvorschau</h3>
-        <iframe id="documentPreview" style="width:100%; height:400px;"></iframe>
-        <button class="button" onclick="togglePreview()">Vorschau schließen</button>
-    </div>
 
     <script>
         let uploadedFilePath = '';
         let previewVisible = false;
+        //ocr
+        document.getElementById('ocrInput').addEventListener('change', function () {
+            const formData = new FormData(document.getElementById('ocrForm'));
+            fetch('/dashboard/ocr', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.style.display = 'none';
+                    a.href = url;
+                    a.download = 'ocr-result.pdf';
+                    document.body.appendChild(a);
+                    a.click();
+                    window.URL.revokeObjectURL(url);
+                    document.body.removeChild(a);
+                })
+                .catch(error => console.error('Fehler bei der OCR-Verarbeitung:', error));
+        });
 
         // Handle file upload
         document.getElementById('uploadInput').addEventListener('change', function () {
@@ -77,37 +73,8 @@
                 .catch(error => console.error('Error:', error));
         });
 
-        function acceptSuggestedFolder() {
-            alert("Dokument wird im vorgeschlagenen Ordner gespeichert.");
-        }
-
-        function chooseManualFolder() {
-            document.getElementById('suggestedFolderContainer').style.display = 'none';
-            document.getElementById('manualFolderContainer').style.display = 'block';
-        }
-
-        function saveToManualFolder() {
-            const manualFolder = document.getElementById('manualFolder').value;
-            if (manualFolder) {
-                fetch('/dashboard/move', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ filePath: uploadedFilePath, destination: manualFolder })
-                })
-                    .then(response => {
-                        if (response.ok) {
-                            alert('Dokument erfolgreich verschoben');
-                            document.getElementById('manualFolderContainer').style.display = 'none';
-                            listDocuments();
-                        } else {
-                            alert('Fehler beim Verschieben des Dokuments');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-        }
+        
+      
 
         function toggleDocumentList() {
             const fileList = document.getElementById('fileList');
@@ -140,17 +107,6 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        function togglePreview() {
-            const previewContainer = document.getElementById('previewContainer');
-            previewVisible = !previewVisible;
-            previewContainer.style.display = previewVisible ? 'block' : 'none';
-        }
-        function previewDocument(filePath) {
-            const previewContainer = document.getElementById('previewContainer');
-            const documentPreview = document.getElementById('documentPreview');
-            documentPreview.src = `/dashboard/preview/${encodeURIComponent(filePath)}`;
-            togglePreview();
-        }
 
         function downloadDocument(filePath) {
             const link = document.createElement('a');
@@ -197,23 +153,6 @@
                     .catch(error => console.error('Error:', error));
             }
         }
-
-        function searchDocuments() {
-            const query = document.getElementById('searchQuery').value;
-            fetch(`/dashboard/search?query=${encodeURIComponent(query)}`)
-                .then(response => response.json())
-                .then(results => {
-                    const searchResults = document.getElementById('searchResults');
-                    searchResults.innerHTML = '';
-                    results.forEach(result => {
-                        const li = document.createElement('li');
-                        li.innerText = result;
-                        searchResults.appendChild(li);
-                    });
-                })
-                .catch(error => console.error('Error:', error));
-        }
-
         function logout() {
             fetch('/dashboard/logout')
                 .then(response => {
