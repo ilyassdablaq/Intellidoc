@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const tesseract = require('tesseract.js');
 const User = require('../Backend/User');
+const Document = require('../Backend/Document');
+const tesseract = require('tesseract.js'); 
 const { PDFDocument, rgb } = require('pdf-lib');
+const path = require('path');
+const fs = require('fs');
+const sharp = require('sharp');
 
-// Author: ilyassdablaq
 // Middleware, um zu überprüfen, ob der Benutzer authentifiziert ist
 async function isAuthenticated(req, res, next) {
     if (req.session && req.session.userId) {
@@ -34,113 +35,109 @@ if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-// Author: ilyassdablaq
-// Multer für Datei-Uploads einrichten
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, uploadDir);
-    },
-    filename: function (req, file, cb) {
-        cb(null, req.user._id + '-' + file.originalname);
-    }
-});
+// Multer für Datei-Uploads einrichten (im Arbeitsspeicher speichern)
+const storage = multer.memoryStorage();  // Nutze memoryStorage statt diskStorage
 const upload = multer({ storage: storage });
 
-// Author: ilyassdablaq
 // Route für die Startseite des Dashboards
 router.get('/', isAuthenticated, (req, res) => {
     res.sendFile('dashboard.html', { root: './Frontend' });
 });
 
-// Author: ilyassdablaq
 // Route zum Hochladen von Dokumenten
 router.post('/upload', isAuthenticated, upload.single('file'), async (req, res) => {
-    console.log(`Datei hochgeladen nach: ${req.file.path}`);
-
     try {
-        res.send('Datei erfolgreich hochgeladen');
+        const { originalname, mimetype, buffer } = req.file;
+
+        // Dokument in MongoDB speichern
+        const document = new Document({
+            userId: req.user._id,
+            filename: originalname,
+            contentType: mimetype,
+            fileData: buffer
+        });
+        await document.save();
+
+        res.json({ message: 'Datei erfolgreich hochgeladen' });
     } catch (error) {
         console.error(`Fehler beim Hochladen der Datei: ${error}`);
         res.status(500).send('Fehler beim Hochladen der Datei');
     }
 });
 
-
-// Author: ilyassdablaq
 // Route zum Herunterladen von Dokumenten
-router.get('/download/:filename', isAuthenticated, (req, res) => {
-    const decodedFilename = decodeURIComponent(req.params.filename);
-    const fileWithId = `${req.user._id}-${decodedFilename}`;
-    const filePath = path.join(uploadDir, fileWithId);
+router.get('/download/:filename', isAuthenticated, async (req, res) => {
+    try {
+        const document = await Document.findOne({ userId: req.user._id, filename: req.params.filename });
 
-    console.log(`Decoded filename: ${decodedFilename}`);
-    console.log(`Final file path for download: ${filePath}`);
+        if (!document) {
+            return res.status(404).send('Datei nicht gefunden');
+        }
 
-    if (!fs.existsSync(filePath)) {
-        console.error('Datei nicht gefunden:', filePath);
-        return res.status(404).send('Datei nicht gefunden');
+        res.set({
+            'Content-Type': document.contentType,
+            'Content-Disposition': `attachment; filename="${document.filename}"`
+        });
+
+        res.send(document.fileData);
+    } catch (error) {
+        console.error(`Fehler beim Herunterladen der Datei: ${error}`);
+        res.status(500).send('Fehler beim Herunterladen der Datei');
     }
-
-    res.download(filePath, (err) => {
-        if (err) {
-            console.error(`Fehler beim Herunterladen der Datei: ${err}`);
-            res.status(500).send('Fehler beim Herunterladen der Datei');
-        }
-    });
 });
 
-// Author: ilyassdablaq
 // Route zum Auflisten hochgeladener Dokumente
-router.get('/files', isAuthenticated, (req, res) => {
-    fs.readdir(uploadDir, (err, files) => {
-        if (err) {
-            console.error(`Fehler beim Lesen der Dateien: ${err}`);
-            return res.status(500).send('Fehler beim Scannen der Dateien');
-        }
-        // Entfernen der Benutzer-ID aus den Dateinamen
-        const userFiles = files.filter(file => file.startsWith(req.user._id + '-'))
-            .map(file => file.replace(req.user._id + '-', ''));
-        res.json(userFiles);
-    });
+router.get('/files', isAuthenticated, async (req, res) => {
+    try {
+        const documents = await Document.find({ userId: req.user._id });
+        res.json(documents.map(doc => doc.filename));
+    } catch (error) {
+        console.error(`Fehler beim Auflisten der Dateien: ${error}`);
+        res.status(500).send('Fehler beim Auflisten der Dateien');
+    }
 });
-
 
 
 // Author: ilyassdablaq
 // Route zum Löschen eines Dokuments
-router.delete('/delete/:filename', isAuthenticated, (req, res) => {
-    // Benutzer-ID hinzufügen, um den vollständigen Dateinamen zu erhalten
-    const filenameWithId = `${req.user._id}-${req.params.filename}`;
-    const file = path.join(uploadDir, filenameWithId);
+router.delete('/delete/:filename', isAuthenticated, async (req, res) => {
+    try {
+        const document = await Document.findOneAndDelete({ userId: req.user._id, filename: req.params.filename });
 
-    fs.unlink(file, (err) => {
-        if (err) {
-            console.error(`Fehler beim Löschen der Datei: ${err}`);
-            return res.status(500).send('Fehler beim Löschen der Datei');
+        if (!document) {
+            return res.status(404).send('Datei nicht gefunden');
         }
+
         res.send('Datei erfolgreich gelöscht');
-    });
+    } catch (error) {
+        console.error(`Fehler beim Löschen der Datei: ${error}`);
+        res.status(500).send('Fehler beim Löschen der Datei');
+    }
 });
+
 
 // Author: ilyassdablaq
 // Route zum Umbenennen eines Dokuments
-router.post('/rename', isAuthenticated, (req, res) => {
+router.post('/rename', isAuthenticated, async (req, res) => {
     const { oldFilename, newFilename } = req.body;
-    const oldFilePath = path.join(uploadDir, `${req.user._id}-${oldFilename}`);
-    const newFilePath = path.join(uploadDir, `${req.user._id}-${newFilename}`);
 
-    fs.rename(oldFilePath, newFilePath, (err) => {
-        if (err) {
-            console.error(`Fehler beim Umbenennen der Datei: ${err}`);
-            return res.status(500).send('Fehler beim Umbenennen der Datei');
+    try {
+        const document = await Document.findOne({ userId: req.user._id, filename: oldFilename });
+
+        if (!document) {
+            return res.status(404).send('Datei nicht gefunden');
         }
 
-        // Verzögerung von 100 ms
-        setTimeout(() => {
-            res.send('Datei erfolgreich umbenannt');
-        }, 100);
-    });
+        document.filename = newFilename;
+        await document.save();
+
+        res.send('Datei erfolgreich umbenannt');
+    } catch (error) {
+        console.error(`Fehler beim Umbenennen der Datei: ${error}`);
+        res.status(500).send('Fehler beim Umbenennen der Datei');
+    }
 });
+
 
 
 // Author: ilyassdablaq
@@ -171,61 +168,69 @@ router.get('/logout', (req, res) => {
     });
 });
 // Author: ilyassdablaq
-// Route zum Durchführen von OCR auf Bildern und Speichern als PDF
-router.post('/ocr', isAuthenticated, upload.single('image'), (req, res) => {
-    const filePath = req.file.path;
-    tesseract.recognize(filePath, 'eng', {
-        logger: m => console.log(m),
-    }).then(async ({ data: { text } }) => {
-        try {
-            // Erstellt ein neues PDF-Dokument
-            const pdfDoc = await PDFDocument.create();
-            const page = pdfDoc.addPage();
+// Route zum Durchführen von OCR auf Bildern und Speichern als PDF und PNG
+router.post('/ocr', isAuthenticated, upload.single('image'), async (req, res) => {
+    try {
+        const originalNameWithoutExt = path.parse(req.file.originalname).name; // Originalname ohne Erweiterung
+        const buffer = req.file.buffer;
 
-            // Setzt die Schriftart und Größe des Textes
-            const fontSize = 12;
-            const textWidth = page.getWidth() - 2 * 20;
-            const textHeight = page.getHeight() - 2 * 20;
+        // OCR-Prozess
+        const { data: { text } } = await tesseract.recognize(buffer, 'eng', {
+            logger: m => console.log(m),
+        });
 
-            // Teilt den Text in Zeilen, die in die Seitenbreite passen
-            const lines = text.split('\n');
-            let y = textHeight + 20;
-            const lineHeight = fontSize * 1.2;
+        // PDF-Dokument erstellen
+        const pdfDoc = await PDFDocument.create();
+        const page = pdfDoc.addPage();
 
-            lines.forEach((line) => {
-                y -= lineHeight;
-                page.drawText(line, {
-                    x: 20,
-                    y: y,
-                    size: fontSize,
-                    color: rgb(0, 0, 0),
-                });
+        const fontSize = 12;
+        const textWidth = page.getWidth() - 2 * 20;
+        const textHeight = page.getHeight() - 2 * 20;
+
+        const lines = text.split('\n');
+        let y = textHeight + 20;
+        const lineHeight = fontSize * 1.2;
+
+        lines.forEach((line) => {
+            y -= lineHeight;
+            page.drawText(line, {
+                x: 20,
+                y: y,
+                size: fontSize,
+                color: rgb(0, 0, 0),
             });
+        });
 
-            // Serialisiert das PDF-Dokument zu Bytes (ein Uint8Array)
-            const pdfBytes = await pdfDoc.save();
+        // PDF-Datei speichern
+        const pdfBytes = await pdfDoc.save();
 
-            // Speichert das PDF in einer Datei
-            const pdfFilePath = path.join(uploadDir, `${req.user._id}-${Date.now()}-ocr.pdf`);
-            fs.writeFileSync(pdfFilePath, pdfBytes);
+        // PNG-Version des Originalbilds erstellen
+        const pngBuffer = await sharp(buffer).png().toBuffer();
 
-            // Löscht die hochgeladene Bilddatei
-            // fs.unlinkSync(filePath);
+        // PDF-Datei in MongoDB speichern
+        const pdfDocument = new Document({
+            userId: req.user._id,
+            filename: `${originalNameWithoutExt}.pdf`,
+            contentType: 'application/pdf',
+            fileData: Buffer.from(pdfBytes)
+        });
+        await pdfDocument.save();
 
-            // Antwortet mit dem Pfad zur gespeicherten PDF
-            res.download(pdfFilePath, 'ocr-result.pdf', (err) => {
-                if (err) {
-                    console.error(`Fehler beim Senden der PDF: ${err}`);
-                    res.status(500).send('Fehler beim Senden der PDF');
-                }
-            });
-        } catch (err) {
-            console.error(`Fehler beim Erstellen der PDF: ${err}`);
-            res.status(500).send('Fehler beim Erstellen der PDF');
-        }
-    }).catch(err => {
+        // PNG-Datei in MongoDB speichern
+        const pngDocument = new Document({
+            userId: req.user._id,
+            filename: `${originalNameWithoutExt}.png`,
+            contentType: 'image/png',
+            fileData: pngBuffer
+        });
+        await pngDocument.save();
+
+        // Antwort an den Benutzer zurückgeben
+        res.json({ message: 'OCR erfolgreich durchgeführt und Dateien gespeichert' });
+    } catch (err) {
         console.error(`Fehler bei der Bildverarbeitung: ${err}`);
         res.status(500).send('Fehler bei der Bildverarbeitung');
-    });
+    }
 });
+
 module.exports = router;
