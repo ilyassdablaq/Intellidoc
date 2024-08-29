@@ -41,6 +41,7 @@
     <script>
         let isPreviewVisible = false;
         let isMaximized = false;
+        let lastPreviewedFile = null; // Speichert den zuletzt angezeigten Dateipfad
         let previewContainer = document.getElementById('previewContainer');
         let previewFrame = document.getElementById('previewFrame');
         let maximizeButton = document.getElementById('maximizeButton');
@@ -103,8 +104,7 @@
                         const li = document.createElement('li');
                         li.innerHTML = `
                                 <span ondblclick="renameDocument(this, '${file}')">${displayFileName}</span>
-                                <button class="button" onclick="downloadDocument('${file}')">Herunterladen</button>
-                                <button class="button preview-button" onclick="previewDocument('${file}')">Vorschau</button>
+                                <button class="button" onclick="previewDocument('${file}')">Vorschau</button>
                                 <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
                             `;
                         fileList.appendChild(li);
@@ -159,43 +159,40 @@
             }
         }
 
-        // Drag-and-Drop Funktionalität
-        const previewHeader = document.getElementById('previewHeader');
-        let isDragging = false;
-        let initialX, initialY, startX, startY;
-
-        previewHeader.onmousedown = function (event) {
-            isDragging = true;
-            initialX = event.clientX;
-            initialY = event.clientY;
-            startX = previewContainer.offsetLeft;
-            startY = previewContainer.offsetTop;
-
-            function moveAt(pageX, pageY) {
-                if (isDragging) {
-                    previewContainer.style.left = startX + pageX - initialX + 'px';
-                    previewContainer.style.top = startY + pageY - initialY + 'px';
-                }
+        function previewDocument(filePath) {
+            if (isPreviewVisible && lastPreviewedFile === filePath) {
+                togglePreview(); // Schließt das Fenster, wenn erneut auf den Button geklickt wird
+            } else {
+                fetch(`/dashboard/preview/${encodeURIComponent(filePath)}`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.blob();
+                        } else {
+                            throw new Error('Fehler beim Abrufen der Vorschau');
+                        }
+                    })
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        previewFrame.src = url;
+                        previewContainer.classList.remove('hidden');
+                        isPreviewVisible = true;
+                        lastPreviewedFile = filePath; // Aktualisiert den zuletzt angezeigten Dateipfad
+                    })
+                    .catch(error => {
+                        console.error('Fehler bei der Vorschau:', error);
+                        alert('Fehler beim Laden der Vorschau');
+                    });
             }
+        }
 
-            function onMouseMove(event) {
-                if (Math.abs(event.clientX - initialX) > 3 || Math.abs(event.clientY - initialY) > 3) {
-                    moveAt(event.pageX, event.pageY);
-                }
+        function togglePreview() {
+            previewContainer.classList.toggle('hidden');
+            isPreviewVisible = !previewContainer.classList.contains('hidden');
+            if (!isPreviewVisible) {
+                previewFrame.src = '';
+                lastPreviewedFile = null; // Setzt den zuletzt angezeigten Dateipfad zurück
             }
-
-            document.addEventListener('mousemove', onMouseMove);
-
-            document.onmouseup = function () {
-                isDragging = false;
-                document.removeEventListener('mousemove', onMouseMove);
-                document.onmouseup = null;
-            };
-        };
-
-        previewHeader.ondragstart = function () {
-            return false;
-        };
+        }
 
         // Funktion zum Maximieren/Minimieren des Fensters
         maximizeButton.addEventListener('click', () => {
@@ -223,39 +220,6 @@
             const scale = event.deltaY < 0 ? 1.1 : 0.9;
             previewFrame.style.transform = `scale(${scale})`;
         });
-
-        function togglePreview() {
-            previewContainer.classList.toggle('hidden');
-            isPreviewVisible = !previewContainer.classList.contains('hidden');
-            if (!isPreviewVisible) {
-                previewFrame.src = '';
-            }
-        }
-
-        function previewDocument(filePath) {
-            if (isPreviewVisible && previewFrame.src.includes(encodeURIComponent(filePath))) {
-                togglePreview();
-            } else {
-                fetch(`/dashboard/preview/${encodeURIComponent(filePath)}`)
-                    .then(response => {
-                        if (response.ok) {
-                            return response.blob();
-                        } else {
-                            throw new Error('Fehler beim Abrufen der Vorschau');
-                        }
-                    })
-                    .then(blob => {
-                        const url = URL.createObjectURL(blob);
-                        previewFrame.src = url;
-                        previewContainer.classList.remove('hidden');
-                        isPreviewVisible = true;
-                    })
-                    .catch(error => {
-                        console.error('Fehler bei der Vorschau:', error);
-                        alert('Fehler beim Laden der Vorschau');
-                    });
-            }
-        }
 
         function logout() {
             fetch('/dashboard/logout')
