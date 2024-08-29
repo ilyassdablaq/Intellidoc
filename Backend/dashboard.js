@@ -137,24 +137,28 @@ router.post('/rename', isAuthenticated, async (req, res) => {
         res.status(500).send('Fehler beim Umbenennen der Datei');
     }
 });
-
-
-
 // Author: ilyassdablaq
 // Route zum Vorschau Fenster
-router.get('/preview/:filePath', (req, res) => {
-    const filePath = decodeURIComponent(req.params.filePath);
-    const absolutePath = path.join(uploadDir, filePath);
+router.get('/preview/:filename', isAuthenticated, async (req, res) => {
+    try {
+        const document = await Document.findOne({ userId: req.user._id, filename: req.params.filename });
 
-    console.log(`Preview requested for: ${absolutePath}`); // Debugging line
+        if (!document) {
+            return res.status(404).send('Datei nicht gefunden');
+        }
 
-    if (fs.existsSync(absolutePath)) {
-        res.sendFile(absolutePath);
-    } else {
-        console.error(`File not found: ${absolutePath}`);
-        res.status(404).send('Datei nicht gefunden');
+        res.set({
+            'Content-Type': document.contentType,
+            'Content-Disposition': `inline; filename="${document.filename}"`
+        });
+
+        res.send(document.fileData);
+    } catch (error) {
+        console.error(`Fehler beim Laden der Vorschau: ${error}`);
+        res.status(500).send('Fehler beim Laden der Vorschau');
     }
 });
+
 
 // Author: ilyassdablaq
 // Route zum Ausloggen

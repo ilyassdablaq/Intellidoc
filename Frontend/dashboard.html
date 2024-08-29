@@ -8,14 +8,13 @@
 </head>
 <body>
     <button class="button logout-button" onclick="logout()">Ausloggen</button>
-    <h2> Intellidoc </h2>
+    <h2>Intellidoc</h2>
 
     <!-- Upload Document Form -->
     <form id="uploadForm" enctype="multipart/form-data">
         <input type="file" id="uploadInput" name="file" class="hidden" />
         <button type="button" class="button" onclick="document.getElementById('uploadInput').click();">Dokument Hochladen</button>
     </form>
-
 
     <!-- List Documents -->
     <button class="button" onclick="toggleDocumentList()">Dokumente Auflisten</button>
@@ -29,11 +28,23 @@
 
     <div id="ocrResult"></div>
 
+    <!-- Preview Container -->
+    <div id="previewContainer" class="hidden">
+        <div id="previewHeader">
+            <span>Vorschau</span>
+            <button id="maximizeButton" class="button">🔍</button>
+            <button id="closePreviewButton" class="button close-button" onclick="togglePreview()">✖️</button>
+        </div>
+        <iframe id="previewFrame" src="" frameborder="0"></iframe>
+    </div>
 
     <script>
-        let uploadedFilePath = '';
-        let previewVisible = false;
-        //ocr
+        let isPreviewVisible = false;
+        let isMaximized = false;
+        let previewContainer = document.getElementById('previewContainer');
+        let previewFrame = document.getElementById('previewFrame');
+        let maximizeButton = document.getElementById('maximizeButton');
+
         document.getElementById('ocrInput').addEventListener('change', function () {
             const formData = new FormData(document.getElementById('ocrForm'));
             fetch('/dashboard/ocr', {
@@ -46,7 +57,6 @@
                     const a = document.createElement('a');
                     a.style.display = 'none';
                     a.href = url;
-                    a.download = 'ocr-result.pdf';
                     document.body.appendChild(a);
                     a.click();
                     window.URL.revokeObjectURL(url);
@@ -55,7 +65,6 @@
                 .catch(error => console.error('Fehler bei der OCR-Verarbeitung:', error));
         });
 
-        // Handle file upload
         document.getElementById('uploadInput').addEventListener('change', function () {
             const formData = new FormData(document.getElementById('uploadForm'));
             fetch('/dashboard/upload', {
@@ -72,9 +81,6 @@
                 })
                 .catch(error => console.error('Error:', error));
         });
-
-        
-      
 
         function toggleDocumentList() {
             const fileList = document.getElementById('fileList');
@@ -96,17 +102,16 @@
                         const displayFileName = file.split('/').pop();
                         const li = document.createElement('li');
                         li.innerHTML = `
-                                    <span ondblclick="renameDocument(this, '${file}')">${displayFileName}</span>
-                                    <button class="button" onclick="downloadDocument('${file}')">Herunterladen</button>
-                                    <button class="button preview-button" onclick="previewDocument('${file}')">Vorschau</button>
-                                    <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
-                                `;
+                                <span ondblclick="renameDocument(this, '${file}')">${displayFileName}</span>
+                                <button class="button" onclick="downloadDocument('${file}')">Herunterladen</button>
+                                <button class="button preview-button" onclick="previewDocument('${file}')">Vorschau</button>
+                                <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
+                            `;
                         fileList.appendChild(li);
                     });
                 })
                 .catch(error => console.error('Error:', error));
         }
-
 
         function downloadDocument(filePath) {
             const link = document.createElement('a');
@@ -153,6 +158,105 @@
                     .catch(error => console.error('Error:', error));
             }
         }
+
+        // Drag-and-Drop Funktionalität
+        const previewHeader = document.getElementById('previewHeader');
+        let isDragging = false;
+        let initialX, initialY, startX, startY;
+
+        previewHeader.onmousedown = function (event) {
+            isDragging = true;
+            initialX = event.clientX;
+            initialY = event.clientY;
+            startX = previewContainer.offsetLeft;
+            startY = previewContainer.offsetTop;
+
+            function moveAt(pageX, pageY) {
+                if (isDragging) {
+                    previewContainer.style.left = startX + pageX - initialX + 'px';
+                    previewContainer.style.top = startY + pageY - initialY + 'px';
+                }
+            }
+
+            function onMouseMove(event) {
+                if (Math.abs(event.clientX - initialX) > 3 || Math.abs(event.clientY - initialY) > 3) {
+                    moveAt(event.pageX, event.pageY);
+                }
+            }
+
+            document.addEventListener('mousemove', onMouseMove);
+
+            document.onmouseup = function () {
+                isDragging = false;
+                document.removeEventListener('mousemove', onMouseMove);
+                document.onmouseup = null;
+            };
+        };
+
+        previewHeader.ondragstart = function () {
+            return false;
+        };
+
+        // Funktion zum Maximieren/Minimieren des Fensters
+        maximizeButton.addEventListener('click', () => {
+            if (isMaximized) {
+                previewContainer.style.width = '50%';
+                previewContainer.style.height = '300px';
+                previewContainer.style.bottom = '20%';
+                previewContainer.style.left = '50%';
+                previewContainer.style.transform = 'translateX(-50%)';
+                maximizeButton.innerHTML = '🔍';
+            } else {
+                previewContainer.style.width = '100%';
+                previewContainer.style.height = '100%';
+                previewContainer.style.bottom = '0';
+                previewContainer.style.left = '0';
+                previewContainer.style.transform = 'none';
+                maximizeButton.innerHTML = '🗗';
+            }
+            isMaximized = !isMaximized;
+        });
+
+        // Zoom-Funktion hinzufügen
+        previewFrame.addEventListener('wheel', function (event) {
+            event.preventDefault();
+            const scale = event.deltaY < 0 ? 1.1 : 0.9;
+            previewFrame.style.transform = `scale(${scale})`;
+        });
+
+        function togglePreview() {
+            previewContainer.classList.toggle('hidden');
+            isPreviewVisible = !previewContainer.classList.contains('hidden');
+            if (!isPreviewVisible) {
+                previewFrame.src = '';
+            }
+        }
+
+        function previewDocument(filePath) {
+            if (isPreviewVisible && previewFrame.src.includes(encodeURIComponent(filePath))) {
+                togglePreview();
+            } else {
+                fetch(`/dashboard/preview/${encodeURIComponent(filePath)}`)
+                    .then(response => {
+                        if (response.ok) {
+                            return response.blob();
+                        } else {
+                            throw new Error('Fehler beim Abrufen der Vorschau');
+                        }
+                    })
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        previewFrame.src = url;
+                        previewContainer.classList.remove('hidden');
+                        isPreviewVisible = true;
+                    })
+                    .catch(error => {
+                        console.error('Fehler bei der Vorschau:', error);
+                        alert('Fehler beim Laden der Vorschau');
+                    });
+            }
+        }
+
         function logout() {
             fetch('/dashboard/logout')
                 .then(response => {

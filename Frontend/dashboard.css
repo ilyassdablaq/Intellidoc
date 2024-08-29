@@ -147,3 +147,69 @@ a.button {
 .button:hover {
     animation: buttonPop 0.3s ease-in-out;
 }
+
+#previewContainer {
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50%; /* Standardbreite */
+    height: 300px; /* Standardhöhe */
+    background-color: white;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    resize: both; /* Ermöglicht Größenänderung von allen Seiten */
+    overflow: auto;
+    box-sizing: border-box; /* sorgt dafür, dass padding nicht zur Gesamtgröße addiert wird */
+    padding: 8px;
+}
+
+    #previewContainer.hidden {
+        display: none;
+    }
+
+#previewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f1f1f1;
+    padding: 3px 8px;
+    cursor: move;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    font-size: 12px;
+}
+
+#previewFrame {
+    width: 100%;
+    height: calc(100% - 30px); /* Anpassung der Höhe */
+    border: none;
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .button.close-button {
+        color: #ff4d4d;
+    }
+
+        .button.close-button:hover {
+            color: #ff1a1a;
+        }
+
+#maximizeButton {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+    #maximizeButton:hover {
+        color: #007bff;
+    }
