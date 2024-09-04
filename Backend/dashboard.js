@@ -41,7 +41,7 @@ const upload = multer({ storage: storage });
 
 // Route für die Startseite des Dashboards
 router.get('/', isAuthenticated, (req, res) => {
-    res.sendFile('dashboard.html', { root: './Frontend' });
+    res.sendFile('dashboard.html', { root: './Frontend/Html' });
 });
 
 // Route zum Hochladen von Dokumenten

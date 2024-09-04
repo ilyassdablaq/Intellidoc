@@ -5,7 +5,7 @@ const transporter = require('../Backend/mailer');
 const path = require('path'); 
 
 router.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, '../public/reset.html'));
+	res.sendFile(path.join(__dirname, '../Frontend/Html/reset.html'));
 });
 
 router.post('/request-verification', async (req, res) => {
@@ -43,7 +43,7 @@ router.post('/request-verification', async (req, res) => {
 });
 
 router.get('/newPassword', (req, res) => {
-	res.sendFile(path.join(__dirname, '../public/newPassword.html'));
+	res.sendFile(path.join(__dirname, '../Frontend/Html/newPassword.html'));
 });
 
 router.post('/newPassword', async (req, res) => {
@@ -55,8 +55,8 @@ router.post('/newPassword', async (req, res) => {
 			return res.status(400).send('Benutzer nicht gefunden');
 		}
 		if (verificationKey !== user.verificationKey) {
-			console.log('Ungültiger Verifizierungsschlüssel');
-			return res.status(400).send('Ungültiger Verifizierungsschlüssel');
+			console.log('Ungültiger Verifizierungsschluessel');
+			return res.status(400).send('Ungültiger Verifizierungsschluessel');
 		}
 		user.password = newPassword;
 		user.verificationKey = null;

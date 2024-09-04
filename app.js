@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const { connectDB } = require('./MongoDB');
+const { connectDB } = require('./Datenbank/MongoDB');
 const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
@@ -29,14 +29,14 @@ app.use(session({
 
 // Route für die Startseite
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Frontend', 'landingPage.html'));
+    res.sendFile(path.join(__dirname, 'Frontend', 'Html', 'landingPage.html'));
 });
 // Route for the login und register page
 app.get('/login', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Frontend', 'login.html'));
+    res.sendFile(path.join(__dirname, 'Frontend', 'Html', 'login.html'));
 });
 app.get('/register', (req, res) => {
-    res.sendFile(path.join(__dirname, 'Frontend/register.html'));
+    res.sendFile(path.join(__dirname, 'Frontend', 'Html', 'register.html'));
 });
 
 

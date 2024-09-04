@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="/Css/dashboard.css">
 </head>
 <body>
     <button class="button logout-button" onclick="logout()">Ausloggen</button>
@@ -52,16 +52,10 @@
                 method: 'POST',
                 body: formData
             })
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = window.URL.createObjectURL(blob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    document.body.removeChild(a);
+                .then(response => response.json()) // Erwartet JSON-Antwort vom Server
+                .then(data => {
+                    alert(data.message); // Zeigt die Erfolgsmeldung an
+                    // Hier kannst du zusätzliche Logik hinzufügen, falls nötig
                 })
                 .catch(error => console.error('Fehler bei der OCR-Verarbeitung:', error));
         });
@@ -103,10 +97,10 @@
                         const displayFileName = file.split('/').pop();
                         const li = document.createElement('li');
                         li.innerHTML = `
-                                <span ondblclick="renameDocument(this, '${file}')">${displayFileName}</span>
-                                <button class="button" onclick="previewDocument('${file}')">Vorschau</button>
-                                <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
-                            `;
+                                        <span ondblclick="renameDocument(this, '${file}')">${displayFileName}</span>
+                                        <button class="button" onclick="previewDocument('${file}')">Vorschau</button>
+                                        <button class="button delete-button" onclick="deleteDocument('${file}')">Löschen</button>
+                                    `;
                         fileList.appendChild(li);
                     });
                 })
@@ -128,10 +122,9 @@
             })
                 .then(response => {
                     if (response.ok) {
-                        alert('Dokument erfolgreich gelöscht');
-                        listDocuments();
+                        listDocuments(); // Aktualisiert die Dateiliste ohne Benachrichtigung
                     } else {
-                        alert('Fehler beim Löschen des Dokuments');
+                        console.error('Fehler beim Löschen des Dokuments');
                     }
                 })
                 .catch(error => console.error('Error:', error));
